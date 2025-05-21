@@ -36,7 +36,7 @@ def load_canonical(path):
         df['embeddings'] = df['embeddings'].apply(lambda s: np.fromstring(s.strip('[]'), sep=' '))
     return df
 
-df_canonical = load_canonical('flat_skills_agregated_cleaned_emb_v1.pkl')
+df_canonical = load_canonical('canonical_v1_emb.pkl')
 
 # Load matched skills dataframe
 @st.cache_data
@@ -45,7 +45,7 @@ def load_matched(path):
         df = pickle.load(f)
     return df
 
-df_matched = load_matched('matched_skills.pkl')
+df_matched = load_matched('matched_skills_v1.pkl')
 
 # 1. Ask user to input 1 to 5 skills
 skills_input = []

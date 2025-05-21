@@ -3,24 +3,28 @@ import numpy as np
 from tqdm import tqdm
 
 def match_and_save(
-    labels_csv: str = r"C:\Users\ezequ\DOLPH\Skills Matching\Embeddings Generation\filtered_skills_10M_emb_v1.csv",
+    identifiers_pkl: str = r"C:\Users\ezequ\DOLPH\Skills Matching\Embeddings Generation\filtered_skills_10M_v1_emb.pkl",
     column_name_label: str = "SkillName",
     column_name_emb: str = "embeddings",
     identifier_col: str = "Identifier",                # <— name of your ID column
-    canonical_csv: str = r"C:\Users\ezequ\DOLPH\Skills Matching\Esco taxonomy\flat_skills_agregated_cleaned_emb_v1.csv",
+    canonical_pkl: str = r"C:\Users\ezequ\DOLPH\Skills Matching\Canonical\canonical_v1_emb.pkl",
     canonical_id_col: str = "id",
     canonical_label: str = "label",
     canonical_emb: str = "embeddings",
-    output_csv: str = r"C:\Users\ezequ\DOLPH\Skills Matching\POC HYBRID\matched_skills.csv",
-    output_pkl: str = r"C:\Users\ezequ\DOLPH\Skills Matching\POC HYBRID\matched_skills.pkl"
+    output_pkl: str = r"C:\Users\ezequ\DOLPH\Skills Matching\POC HYBRID\matched_skills_v1.pkl"
 ):
     # 1) Load data
-    df = pd.read_csv(labels_csv, encoding='utf-8')
-    df_can = pd.read_csv(canonical_csv, encoding='utf-8')
+    df = pd.read_pickle(identifiers_pkl,compression='gzip')
+    df_can = pd.read_pickle(canonical_pkl,compression='gzip')
 
     # 2) Parse embeddings
     def parse_emb(col):
-        return col.apply(lambda s: np.fromstring(s.strip('[]'), sep=' ', dtype=np.float32))
+        # print("type:  ",type(col.iloc[0]))
+        # print("shape: ",col.iloc[0].shape)
+        # print(col.iloc[0])
+        if isinstance(col, str):
+            return np.fromstring(col.strip('[]'), sep=' ', dtype=np.float32)
+        return col 
     df['emb_array'] = parse_emb(df[column_name_emb])
     df_can['can_emb_array'] = parse_emb(df_can[canonical_emb])
 
@@ -56,9 +60,8 @@ def match_and_save(
 
     # 6) Save
     out_df = pd.DataFrame(out)
-    out_df.to_csv(output_csv, index=False, encoding='utf-8')
     out_df.to_pickle(output_pkl, compression='gzip')
-    print(f"[✓] Matched {len(df)} rows; saved to '{output_csv}'")
+    print(f"[✓] Matched {len(df)} rows; saved to '{output_pkl}'")
 
 if __name__ == '__main__':
     match_and_save()
