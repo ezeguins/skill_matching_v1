@@ -63,6 +63,7 @@ st.markdown(
 # Match button triggers matching process
 if st.button("Match Skills") and skills_input:
     inputs_lower = [s.lower() for s in skills_input]
+    inputs_cleaned = [s.replace("/", "-") for s in inputs_lower]
     embeddings = model.encode(inputs_lower, max_length=30, truncation=True)
 
     rows = []
