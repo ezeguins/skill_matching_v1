@@ -1,0 +1,11 @@
+Generate a python code for a streamlit application that does the following:
+1- Ask user to input 1 to 5 professional skills (strings).
+2- Generate sentence embeddings with model "v2" (token length = 30) for each input skill in lower case.
+3- Load canonical skills from file flat_skills_agregated_cleaned_emb_v1.pkl (compression gzip) with columns 'id', 'label', 'embeddings' (like '[0.1 0...]')
+4- find the most cosine similar canonical skill for each input skill and generate dataframe_a with the following columns: 'skill', 'label', 'id', 'similarity', 'skill_length' (how many words has the skill)
+5- load matched_skills.pkl (compression gzip) with the columns 'Identifier', 'label', 'canonical_label_id', 'canonical_label', 'similarity' and 'label_length', generate dataframe_b
+6- perform a search for each skill in dataframe_a for the correspondant in dataframe_b, if exists, with the following criteria:
+- If skill in dataframe_a has similarity > 0.96 - 0.1*skill_length, find the Identifiers in dataframe_b with 'label' that has similarity > 0.96 - 0.1*label_length that matchs ids (skill.dataframe_a.id = label.dataframe_b.id) ("Id method")
+- Else (If skill in dataframe_a has similarity <= 0.96 - 0.1*skill_length), find the Identifiers in dataframe_b that are exact string match (skill.dataframe_a.skill.lower() = dataframe_b.label.lower()  ("exact match method")
+7- print, for each dataframe_a skill how many Identifiers were found and if they are from ("Id method" or "exact match method")
+8- make a intersection of the Identifiers for the 1 to 5 input skills and print the Identifier, one by one with the correspondant 'label'
