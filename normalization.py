@@ -7,7 +7,7 @@ def match_and_save(
     column_name_label: str = "SkillName",
     column_name_emb: str = "embeddings",
     identifier_col: str = "Identifier",                # <— name of your ID column
-    canonical_pkl: str = r"C:\Users\ezequ\DOLPH\Skills Matching\Canonical\canonical_v1_emb.pkl",
+    canonical_pkl: str = r"C:\Users\ezequ\DOLPH\Skills Matching\POC HYBRID\canonical_v1_emb.pkl",
     canonical_id_col: str = "id",
     canonical_label: str = "label",
     canonical_emb: str = "embeddings",
