@@ -117,8 +117,8 @@ if st.button("Match Skills") and skills_input:
         found_count = len(common_ids)
         st.write(f"Found {found_count} common Identifiers across all input skills.")
         if found_count:
-            st.subheader("Common Identifiers (showing up to 20)")
-            for cid in list(common_ids)[:20]:
+            st.subheader("Common Identifiers (showing up to 50)")
+            for cid in list(common_ids)[:50]:
                 st.write(f"#### Identifier: {cid}")
                 info = []
                 for skill, df_b in zip(df_a['skill'], df_b_list):
