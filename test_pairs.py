@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer, util
 import time
 
 # 1. Carga tu modelo fine-tuned
-model_path = r"C:\Users\ezequ\DOLPH\Skills Matching\SentenceEmbeddingsApproach\5-ModelInferences\Models\v1"
+model_path = r"C:\Users\ezequ\DOLPH\Skills Matching\SentenceEmbeddingsApproach\5-ModelInferences\Models\v1a"
 model = SentenceTransformer(model_path)
 model = model.half() 
 model.eval()  
@@ -13,10 +13,10 @@ model.eval()
 
 
 start_time = time.perf_counter()
-sentence_1 = "full stack software development"
-sentence_2 = "full stack"
-sentence_3 = "full stack software"
-sentence_4 = "full stack development"
+sentence_1 = "front end development"
+sentence_2 = "front end deployment"
+sentence_3 = "front end"
+sentence_4 = "font-end"
 # sentence_2 = "adobe creative cloud software"
 emb1 = model.encode(sentence_1, max_length=30, truncation=True)
 emb2 = model.encode(sentence_2, max_length=30, truncation=True)

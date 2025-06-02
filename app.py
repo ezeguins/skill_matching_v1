@@ -60,10 +60,16 @@ st.markdown(
     f"**Threshold Formula for Id Method :** Similarity > {THRESHOLD} - {WORD_STEP} × Number of Words"
 )
 
+def replace_special_chars_with_spaces(input_string):
+    # Create a translation table
+    translation_table = str.maketrans({'_': ' ', '-': ' '})
+    # Apply the translation
+    return input_string.translate(translation_table)
+
 # Match button triggers matching process
 if st.button("Match Skills") and skills_input:
     inputs_lower = [s.lower() for s in skills_input]
-    inputs_cleaned = [s.replace("/", "-") for s in inputs_lower]
+    inputs_cleaned = [replace_special_chars_with_spaces(s) for s in inputs_lower]
     embeddings = model.encode(inputs_cleaned, max_length=30, truncation=True)
 
     rows = []

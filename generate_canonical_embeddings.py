@@ -5,10 +5,16 @@ from tqdm import tqdm
 from sklearn.preprocessing import normalize
 from sentence_transformers import SentenceTransformer
 
+def replace_special_chars_with_spaces(input_string):
+    # Create a translation table
+    translation_table = str.maketrans({'_': ' ', '-': ' '})
+    # Apply the translation
+    return input_string.translate(translation_table)
+
 def encode_csv():
     input_csv = r"C:\Users\ezequ\DOLPH\Skills Matching\Canonical\canonical_v1.csv"
     output_pkl = r"C:\Users\ezequ\DOLPH\Skills Matching\Canonical\canonical_v1_emb.pkl"
-    model_name = r'C:\Users\ezequ\DOLPH\Skills Matching\SentenceEmbeddingsApproach\5-ModelInferences\Models\v1'
+    model_name = r'C:\Users\ezequ\DOLPH\Skills Matching\SentenceEmbeddingsApproach\5-ModelInferences\Models\v1a'
     label_name = "label"
     max_tokens = 30
     batch_size = 100
@@ -27,6 +33,7 @@ def encode_csv():
     # Primero detectamos todas las etiquetas únicas (en minúsculas y str)
     for text in df[label_name].astype(str):
         key = text.lower()
+        key = replace_special_chars_with_spaces(key)
         if key not in cache:
             cache[key] = None
             unique_lower_texts.append(key)
@@ -48,7 +55,8 @@ def encode_csv():
             cache[txt] = vec
 
     # Ahora mapeamos cada fila original a su embedding cacheada
-    embeddings = [cache[orig.lower()] for orig in df[label_name].astype(str)]
+    embeddings = [cache[replace_special_chars_with_spaces(orig.lower())] for orig in df[label_name].astype(str)]
+
 
     df["embeddings"] = embeddings
     # df.to_csv(output_csv, index=False, encoding='utf-8')
